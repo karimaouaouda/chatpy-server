@@ -1,6 +1,6 @@
 from openai import OpenAI
 
-API_KEY = "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"
+API_KEY = "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"
 
 
 class GPT:
@@ -21,9 +21,9 @@ class GPT:
         self.response = self.client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
-                {
-                    "role": "user",
-                    "content": self.message}
+                {"role": "system",
+                 "content": "You are an assistant psychotherapist, skilled in dealing with people according to their psychological state."},
+                {"role": "user", "content": self.message}
             ]
         )
 

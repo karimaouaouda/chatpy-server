@@ -1,12 +1,25 @@
 import Core
+from Core.Database import DB
 
 
-def login(email, password):
-    cursor = Core.cursor() # db manager
-    sql = "SELECT * FROM `users` WHERE `email`='{}' AND `password`='{}'".format(str(email), str(password))
+def login(payload):
+    user = DB.table("users").find("email", payload["email"])
+    if user is not None:
+        if user["password"] == payload["password"]:
+            return user
+        else:
+            return "invalid password"
+    else:
+        return "invalid email not found"
 
-    cursor.execute(sql)
 
-    data = cursor.fetchone()
+def register(payload):
+    query = DB.table('users').insert(payload)
+    if query is None:
+        return DB.table('users').find("email", payload["email"])
+    else:
+        return "Email already registered"
 
-    return data
+
+def logout():
+    cursor = Core.cursor()

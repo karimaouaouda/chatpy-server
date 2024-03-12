@@ -1,13 +1,17 @@
 import mysql.connector
+from dotenv import load_dotenv
+import os
 
+load_dotenv()
 mydb = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="",
-    database="chatpy"
+    host=os.getenv("DB_HOST"),
+    user=os.getenv("DB_USER"),
+    password=os.getenv("DB_PASSWORD"),
+    database=os.getenv("DB_DATABASE")
 )
 
-db_cursor = mydb.cursor()
+mydb.autocommit = True
+db_cursor = mydb.cursor(dictionary=True)
 
 
 def cursor():
